@@ -5,13 +5,14 @@
 
 Name:		brltty
 Version:	3.7.2
-Release:	%mkrel 5
+Release:	%mkrel 6
 License:	GPL
 Group:		System/Servers
 URL:		http://mielke.cc/brltty/
 Source0:	http://mielke.cc/brltty/releases/%{name}-%{version}.tar.bz2
 Patch0:		brltty-3.7.2-varargs.patch.bz2
-#Patch1:		brltty-3.6-gcc4.patch.bz2
+# (fc) 3.7.2-6mdv don't strip executable to have valid debug package (Fedora)
+Patch1:		brltty-3.7.2-dontstrip.patch
 BuildRequires:	bison
 BuildRequires:	gpm-devel
 BuildRequires:	X11-devel
@@ -64,7 +65,7 @@ which directly accesses a refreshable braille display.
 %prep
 %setup -q
 %patch0 -p1 -b .varargs
-#%patch1 -p1 -b .gcc4
+%patch1 -p1 -b .dontstrip
 
 %build
 %configure2_5x --with-install-root="$RPM_BUILD_ROOT"
