@@ -16,6 +16,7 @@ Patch1:		brltty-3.7.2-dontstrip.patch
 BuildRequires:	bison
 BuildRequires:	gpm-devel
 BuildRequires:	X11-devel
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Summary:	Braille display driver for Linux/Unix
 %define		_bindir	/bin
 %define		_libdir	/lib
