@@ -50,7 +50,6 @@ Provides: libbrlapi%{lib_api_version}-devel = %{version}-%{release}
 Requires: %{lib_api_name} = %{version}
 
 %description -n %{lib_api_name}-devel
-
 This package provides the header files, static archive, shared object
 linker reference, and reference documentation for BrlAPI (the
 Application Programming Interface to BRLTTY).  It enables the
