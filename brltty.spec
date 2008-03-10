@@ -18,7 +18,10 @@ BuildRequires:	gpm-devel
 BuildRequires:	X11-devel
 Buildrequires:	python-devel ncurses-devel
 Buildrequires:	bluez-devel python-pyrex
+Buildrequires:  ocaml festival-devel %{mklibname braille}-devel speech_tools-devel %{mklibname alsa2}-devel
+%ifarch %ix86
 Buildrequires:	java-1.7.0-icedtea-devel
+%endif
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Summary:	Braille display driver for Linux/Unix
 %define		_bindir	/bin
@@ -98,12 +101,12 @@ which directly accesses a refreshable braille display.
 
 %build
 #%configure --with-install-root="$RPM_BUILD_ROOT" --disable-java-bindings --with-speech-driver=Festival --disable-relocatable-install
-%configure --with-gui-toolkit=Xaw3d  --with-screen-driver=lx --with-install-root="$RPM_BUILD_ROOT" --disable-caml-bindings --disable-tcl-bindings  --disable-relocatable-install --disable-java-bindings
-make -j 1
+%configure --with-install-root="$RPM_BUILD_ROOT" --disable-relocatable-install --disable-tcl-bindings
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%make install install install-programs install-tables install-drivers install-help
+make install install install-programs install-tables install-drivers install-help
 install -m644 Documents/%{name}.conf -D $RPM_BUILD_ROOT%{_sysconfdir}/%{name}.conf
 install -m644 Documents/%{name}.1 -D $RPM_BUILD_ROOT%{_mandir}/man1/%{name}.1
 
@@ -115,10 +118,6 @@ do
    mkdir -p "${directory}/${file%/*}"
    cp -rp "${file}" "${directory}/${file}"
 done
-
-#cp -v %{buildroot}%{_libdir}/java/*.so mandir}/man1/mput.1 %{buildroot}/usr/%{_libdir}/java/
-#cp -v %{buildroot}/share/java/* %{buildroot}%{_prefix}/share/java/
-
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -150,12 +149,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/brltty
 %{_mandir}/man3/*
 
-#%ifarch ix86
-#%files -n %{lib_api_name}-java
-#%defattr(-,root,root)
-#/usr/%{_libdir}/java/*.so
-#/usr/share/java/*
-#%endif
+%ifarch %ix86
+%files -n %{lib_api_name}-java
+%defattr(-,root,root)
+/usr/%{_libdir}/java/libbrlapi_java.so
+/usr/share/java/brlapi.jar
+%endif
 
 %files -n %{lib_api_name}-python
 /usr/%{_libdir}/python*/site-packages/brlapi.*
