@@ -18,7 +18,7 @@ BuildRequires:	gpm-devel
 BuildRequires:	X11-devel
 Buildrequires:	python-devel ncurses-devel
 Buildrequires:	bluez-devel python-pyrex
-Buildrequires:  ocaml festival-devel %{mklibname braille}-devel speech_tools-devel %{mklibname alsa2}-devel
+Buildrequires:  ocaml festival-devel libbraille-devel speech_tools-devel libalsa-devel
 %ifarch %ix86
 Buildrequires:	java-1.7.0-icedtea-devel
 %endif
@@ -152,10 +152,10 @@ rm -rf $RPM_BUILD_ROOT
 %ifarch %ix86
 %files -n %{lib_api_name}-java
 %defattr(-,root,root)
-/usr/%{_libdir}/java/libbrlapi_java.so
-/usr/share/java/brlapi.jar
+%{_prefix}/%{_libdir}/java/libbrlapi_java.so
+%{_prefix}/share/java/brlapi.jar
 %endif
 
 %files -n %{lib_api_name}-python
-/usr/%{_libdir}/python*/site-packages/brlapi.*
-/usr/%{_libdir}/python*/site-packages/Brlapi-*
+%{_prefix}/%{_libdir}/python*/site-packages/brlapi.*
+%{_prefix}/%{_libdir}/python*/site-packages/Brlapi-*
