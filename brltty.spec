@@ -22,7 +22,10 @@ Buildrequires:	java-1.7.0-icedtea-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Summary:	Braille display driver for Linux/Unix
 %define		_bindir	/bin
-%define		_libdir	/lib
+%define         _libdir /lib
+%ifarch x86_64
+%define		_libdir /lib64
+%endif
 
 %description
 BRLTTY is a background process (daemon) which provides
@@ -95,8 +98,8 @@ which directly accesses a refreshable braille display.
 
 %build
 #%configure --with-install-root="$RPM_BUILD_ROOT" --disable-java-bindings --with-speech-driver=Festival --disable-relocatable-install
-%configure --with-gui-toolkit=Xaw3d  --with-screen-driver=lx --with-install-root="$RPM_BUILD_ROOT" --disable-caml-bindings --disable-tcl-bindings
-%make
+%configure --with-gui-toolkit=Xaw3d  --with-screen-driver=lx --with-install-root="$RPM_BUILD_ROOT" --disable-caml-bindings --disable-tcl-bindings  --disable-relocatable-install --disable-java-bindings
+make -j 1
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -112,6 +115,10 @@ do
    mkdir -p "${directory}/${file%/*}"
    cp -rp "${file}" "${directory}/${file}"
 done
+
+#cp -v %{buildroot}%{_libdir}/java/*.so mandir}/man1/mput.1 %{buildroot}/usr/%{_libdir}/java/
+#cp -v %{buildroot}/share/java/* %{buildroot}%{_prefix}/share/java/
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -143,11 +150,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/brltty
 %{_mandir}/man3/*
 
-%files -n %{lib_api_name}-java
-%defattr(-,root,root)
-%{_prefix}/%{_libdir}/java/*.so
-%{_prefix}/share/java/*
+#%ifarch ix86
+#%files -n %{lib_api_name}-java
+#%defattr(-,root,root)
+#/usr/%{_libdir}/java/*.so
+#/usr/share/java/*
+#%endif
 
 %files -n %{lib_api_name}-python
-%{_prefix}%{_libdir}/python*/site-packages/brlapi.*
-%{_prefix}%{_libdir}/python*/site-packages/Brlapi-*
+/usr/%{_libdir}/python*/site-packages/brlapi.*
+/usr/%{_libdir}/python*/site-packages/Brlapi-*
