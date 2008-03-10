@@ -106,7 +106,7 @@ make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install install install-programs install-tables install-drivers install-help
+make install install-programs install-tables install-drivers install-help
 install -m644 Documents/%{name}.conf -D $RPM_BUILD_ROOT%{_sysconfdir}/%{name}.conf
 install -m644 Documents/%{name}.1 -D $RPM_BUILD_ROOT%{_mandir}/man1/%{name}.1
 
