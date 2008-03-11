@@ -100,7 +100,6 @@ which directly accesses a refreshable braille display.
 #%patch1 -p1 -b .dontstrip
 
 %build
-#%configure --with-install-root="$RPM_BUILD_ROOT" --disable-java-bindings --with-speech-driver=Festival --disable-relocatable-install
 %configure --with-install-root="$RPM_BUILD_ROOT" --disable-relocatable-install --disable-tcl-bindings
 make
 
