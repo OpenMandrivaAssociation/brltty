@@ -10,7 +10,7 @@
 
 Name:		brltty
 Version:	3.9
-Release:	%mkrel 4
+Release:	%mkrel 5
 License:	GPL+
 Group:		System/Servers
 URL:		http://mielke.cc/brltty/
@@ -109,6 +109,7 @@ which directly accesses a refreshable braille display.
 Summary:	Python bindings for BrlAPI
 Group:		Development/Python
 Provides:	brlapi-python = %{version}-%{release}
+Obsoletes:	%{mklibname brlapi 0.5.1 0}-python <= %{version}-%{release}
 
 %description -n %{libname}-python
 This package provides the Python bindings for BrlAPI,
