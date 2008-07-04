@@ -10,7 +10,7 @@
 
 Name:		brltty
 Version:	3.9
-Release:	%mkrel 5
+Release:	%mkrel 6
 License:	GPL+
 Group:		System/Servers
 URL:		http://mielke.cc/brltty/
@@ -45,7 +45,7 @@ Buildrequires:  festival-devel
 Buildrequires:  libbraille-devel
 Buildrequires:  speech_tools-devel
 Buildrequires:  libalsa-devel
-Buildrequires:	java-devel-openjdk
+Buildrequires:	java-rpmbuild
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Summary:	Braille display driver for Linux/Unix
 
@@ -129,7 +129,7 @@ which directly accesses a refreshable braille display.
 %build
 # must set this explicitly or else it detects it as /usr and the
 # headers aren't found - AdamW 2008/07
-export JAVA_HOME=%{_prefix}/lib/jvm/java-1.6.0
+export JAVA_HOME=%{java_home}
 %configure2_5x --with-install-root="%{buildroot}" --disable-relocatable-install --disable-tcl-bindings
 make
 
