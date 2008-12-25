@@ -89,26 +89,37 @@ interfaces which are more specifically atuned to their needs.
 Install this package if you're developing or maintaining an application
 which directly accesses a refreshable braille display.
 
-%package -n %{libname}-java
+%package -n brlapi-java
 Group:		Development/Java
 Summary:	Java bindings for BrlAPI
 Requires:	java-devel-openjdk
-Provides:	brlapi-java = %{version}-%{release}
+Obsoletes:	%{mklibname brlapi 0.5}-java <= %{version}-%{release}
 
-%description -n %{libname}-java
+%description -n brlapi-java
 This package provides the Java bindings for BrlAPI,
 which is the Application Programming Interface to BRLTTY.
 
 Install this package if you have a Java application
 which directly accesses a refreshable braille display.
 
-%package -n %{libname}-python
+%package -n brlapi-python
 Summary:	Python bindings for BrlAPI
 Group:		Development/Python
-Provides:	brlapi-python = %{version}-%{release}
 Obsoletes:	%{mklibname brlapi 0.5.1 0}-python <= %{version}-%{release}
+Obsoletes:	%{mklibname brlapi 0.5}-python <= %{version}-%{release}
 
-%description -n %{libname}-python
+%description -n brlapi-python
+This package provides the Python bindings for BrlAPI,
+which is the Application Programming Interface to BRLTTY.
+
+Install this package if you have a Python application
+which directly accesses a refreshable braille display.
+
+%package -n brlapi-ocaml
+Summary:	Ocaml bindings for BrlAPI
+Group:		Development/Other
+
+%description -n brlapi-ocaml
 This package provides the Python bindings for BrlAPI,
 which is the Application Programming Interface to BRLTTY.
 
@@ -178,12 +189,18 @@ rm -rf %{buildroot}
 %{_includedir}/brltty
 %{_mandir}/man3/*
 
-%files -n %{libname}-java
+%files -n brlapi-java
 %defattr(-,root,root)
 %{_prefix}/lib/java/libbrlapi_java.so
 %{_datadir}/java/brlapi.jar
 
-%files -n %{libname}-python
+%files -n brlapi-python
 %defattr(-,root,root)
-%{_prefix}/%{_libdir}/python*/site-packages/brlapi.*
-%{_prefix}/%{_libdir}/python*/site-packages/Brlapi-*
+%{py_platsitedir}/brlapi.*
+%{py_platsitedir}/Brlapi-*
+
+%files -n brlapi-ocaml
+%defattr(-,root,root)
+%{_libdir}/ocaml/brlapi
+%{_libdir}/ocaml/stublibs/dllbrlapi_stubs.so*
+
