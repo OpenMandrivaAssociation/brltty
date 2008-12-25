@@ -115,17 +115,6 @@ which is the Application Programming Interface to BRLTTY.
 Install this package if you have a Python application
 which directly accesses a refreshable braille display.
 
-%package -n brlapi-ocaml
-Summary:	Ocaml bindings for BrlAPI
-Group:		Development/Other
-
-%description -n brlapi-ocaml
-This package provides the Python bindings for BrlAPI,
-which is the Application Programming Interface to BRLTTY.
-
-Install this package if you have a Python application
-which directly accesses a refreshable braille display.
-
 %prep
 %setup -q
 %patch0 -p1 -b .varargs
@@ -198,9 +187,4 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{py_platsitedir}/brlapi.*
 %{py_platsitedir}/Brlapi-*
-
-%files -n brlapi-ocaml
-%defattr(-,root,root)
-%{_libdir}/ocaml/brlapi
-%{_libdir}/ocaml/stublibs/dllbrlapi_stubs.so*
 
