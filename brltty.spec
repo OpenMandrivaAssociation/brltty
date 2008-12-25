@@ -9,12 +9,12 @@
 %define develname	%mklibname brlapi -d
 
 Name:		brltty
-Version:	3.9
-Release:	%mkrel 7
+Version:	3.10
+Release:	%mkrel 1
 License:	GPL+
 Group:		System/Servers
 URL:		http://mielke.cc/brltty/
-Source0:	http://mielke.cc/brltty/releases/%{name}-%{version}.tar.bz2
+Source0:	http://mielke.cc/brltty/releases/%{name}-%{version}.tar.gz
 Patch0:		brltty-3.9-varargs.patch
 # (fc) 3.7.2-6mdv don't strip executable to have valid debug package (Fedora)
 # (aw) re-diffed and re-activated 3.9-4mdv
@@ -24,15 +24,12 @@ Patch1:		brltty-3.9-dontstrip.patch
 # upstream categorizes this as a workaround not a fix, but no fix seems
 # yet to have been made available - AdamW 2008/07
 Patch2:		brltty-3.9-buildworkaround.patch
-# Fix an 'empty declarator' build error (from upstream SVN) - AdamW
-# 2008/07
-Patch3:		brltty-3.9-declarator.patch
 # Slightly hacky fix for Java includes to make it build with openjdk,
 # where jni_md.h is in a subdirectory of /include . Should not need to
 # patch configure directly - just patching bindings.m4 and running
 # autoreconf would be enough - but autoreconf is broken with brltty
 # 3.9 - AdamW 2008/07
-Patch4:		brltty-3.9-javainclude.patch
+Patch3:		brltty-3.10-javainclude.patch
 BuildRequires:	bison
 BuildRequires:	gpm-devel
 BuildRequires:	X11-devel
@@ -123,8 +120,7 @@ which directly accesses a refreshable braille display.
 %patch0 -p1 -b .varargs
 %patch1 -p1 -b .dontstrip
 %patch2 -p1 -b .build
-%patch3 -p1 -b .declarator
-%patch4 -p1 -b .javainclude
+%patch3 -p1 -b .javainclude
 
 %build
 # must set this explicitly or else it detects it as /usr and the
