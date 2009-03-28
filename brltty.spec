@@ -10,7 +10,7 @@
 
 Name:		brltty
 Version:	3.10
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPL+
 Group:		System/Servers
 URL:		http://mielke.cc/brltty/
