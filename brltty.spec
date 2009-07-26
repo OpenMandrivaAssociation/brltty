@@ -10,7 +10,7 @@
 
 Name:		brltty
 Version:	4.0
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPL+
 Group:		System/Servers
 URL:		http://mielke.cc/brltty/
@@ -115,10 +115,10 @@ Summary:	Ocaml bindings for BrlAPI
 Group:		Development/Other
 
 %description -n brlapi-ocaml
-This package provides the Python bindings for BrlAPI,
+This package provides the Ocaml bindings for BrlAPI,
 which is the Application Programming Interface to BRLTTY.
 
-Install this package if you have a Python application
+Install this package if you have a Ocaml application
 which directly accesses a refreshable braille display.
 
 %prep
@@ -136,9 +136,13 @@ make
 
 %install
 rm -rf %{buildroot}
+install -d -m 755 %{buildroot}%{_prefix}/%{_lib}/ocaml/stublibs
+# just to avoid an installation error
+touch %{buildroot}%{_prefix}/%{_lib}/ocaml/ld.conf
 make install install-programs install-tables install-drivers
 install -m644 Documents/%{name}.conf -D %{buildroot}%{_sysconfdir}/%{name}.conf
 install -m644 Documents/%{name}.1 -D %{buildroot}%{_mandir}/man1/%{name}.1
+rm -f %{buildroot}%{_prefix}/%{_lib}/ocaml/ld.conf
 
 directory="doc"
 mkdir -p "${directory}"
@@ -148,6 +152,7 @@ do
    mkdir -p "${directory}/${file%/*}"
    cp -rp "${file}" "${directory}/${file}"
 done
+
 
 %clean
 rm -rf %{buildroot}
