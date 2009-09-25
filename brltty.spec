@@ -46,6 +46,7 @@ Buildrequires:  libalsa-devel
 %if %{build_java}
 Buildrequires:	java-rpmbuild
 %endif
+BuildConflicts: findlib
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Summary:	Braille display driver for Linux/Unix
 
