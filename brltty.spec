@@ -8,6 +8,12 @@
 %define libname		%mklibname brlapi %{major}
 %define develname	%mklibname brlapi -d
 
+%ifarch %arm %mips
+%define build_java 0
+%else
+%define build_java 1
+%endif
+
 Name:		brltty
 Version:	4.0
 Release:	%mkrel 2
@@ -37,7 +43,9 @@ Buildrequires:  festival-devel
 Buildrequires:  libbraille-devel
 Buildrequires:  speech_tools-devel
 Buildrequires:  libalsa-devel
+%if %{build_java}
 Buildrequires:	java-rpmbuild
+%endif
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Summary:	Braille display driver for Linux/Unix
 
@@ -84,6 +92,7 @@ interfaces which are more specifically atuned to their needs.
 Install this package if you're developing or maintaining an application
 which directly accesses a refreshable braille display.
 
+%if %{build_java}
 %package -n brlapi-java
 Group:		Development/Java
 Summary:	Java bindings for BrlAPI
@@ -96,6 +105,7 @@ which is the Application Programming Interface to BRLTTY.
 
 Install this package if you have a Java application
 which directly accesses a refreshable braille display.
+%endif
 
 %package -n brlapi-python
 Summary:	Python bindings for BrlAPI
@@ -188,10 +198,12 @@ rm -rf %{buildroot}
 %{_includedir}/brltty
 %{_mandir}/man3/*
 
+%if %{build_java}
 %files -n brlapi-java
 %defattr(-,root,root)
 %{_prefix}/lib/java/libbrlapi_java.so
 %{_datadir}/java/brlapi.jar
+%endif
 
 %files -n brlapi-python
 %defattr(-,root,root)
