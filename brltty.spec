@@ -16,7 +16,7 @@
 
 Name:		brltty
 Version:	4.0
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPL+
 Group:		System/Servers
 URL:		http://mielke.cc/brltty/
