@@ -22,14 +22,15 @@ Group:		System/Servers
 URL:		http://mielke.cc/brltty/
 Source0:	http://mielke.cc/brltty/releases/%{name}-%{version}.tar.gz
 Patch0:		brltty-3.9-varargs.patch
-# (fc) 3.7.2-6mdv don't strip executable to have valid debug package (Fedora)
-# (aw) re-diffed and re-activated 3.9-4mdv
-Patch1:		brltty-3.9-dontstrip.patch
+# Fedora patches
+Patch4:		brltty-cppflags.patch
+Patch5:		brltty-parallel.patch
+Patch6:		brltty-autoconf-quote.patch
 BuildRequires:	bison
 BuildRequires:	gpm-devel
 BuildRequires:	X11-devel
 Buildrequires:	python-devel
-Buildrequires:  ncurses-devel
+Buildrequires:  ncursesw-devel
 Buildrequires:	bluez-devel
 Buildrequires:  python-pyrex
 Buildrequires:  ocaml
@@ -37,6 +38,7 @@ Buildrequires:  festival-devel
 Buildrequires:  libbraille-devel
 Buildrequires:  speech_tools-devel
 Buildrequires:  libalsa-devel
+BuildRequires:	subversion
 %if %{build_java}
 Buildrequires:	java-rpmbuild
 %endif
@@ -129,14 +131,23 @@ which directly accesses a refreshable braille display.
 %prep
 %setup -q
 %patch0 -p1 -b .varargs
-%patch1 -p1 -b .dontstrip
+
+%patch4 -p1 -b .cppflags
+%patch5 -p1 -b .parallel
+%patch6 -p1 -b .quote
 
 %build
-# must set this explicitly or else it detects it as /usr and the
-# headers aren't found - AdamW 2008/07
-export JAVA_HOME=%{java_home}
-%configure2_5x --with-install-root="%{buildroot}" --disable-relocatable-install --disable-tcl-bindings
-make
+# Patch6 changes aclocal.m4:
+autoconf
+for i in -I/usr/lib/jvm/java/include{,/linux}; do
+      java_inc="$java_inc $i"
+done
+%configure2_5x	CPPFLAGS="$java_inc" \
+		--with-install-root="%{buildroot}" \
+		--disable-relocatable-install \
+		--disable-tcl-bindings \
+		--disable-stripping
+%make
 
 %install
 rm -rf %{buildroot}
