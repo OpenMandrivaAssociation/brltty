@@ -15,9 +15,9 @@
 %endif
 
 Name:		brltty
-Version:	4.0
-Release:	%mkrel 3
-License:	GPL+
+Version:	4.1
+Release:	%mkrel 1
+License:	GPLv2+
 Group:		System/Servers
 URL:		http://mielke.cc/brltty/
 Source0:	http://mielke.cc/brltty/releases/%{name}-%{version}.tar.gz
@@ -25,12 +25,6 @@ Patch0:		brltty-3.9-varargs.patch
 # (fc) 3.7.2-6mdv don't strip executable to have valid debug package (Fedora)
 # (aw) re-diffed and re-activated 3.9-4mdv
 Patch1:		brltty-3.9-dontstrip.patch
-# Slightly hacky fix for Java includes to make it build with openjdk,
-# where jni_md.h is in a subdirectory of /include . Should not need to
-# patch configure directly - just patching bindings.m4 and running
-# autoreconf would be enough - but autoreconf is broken with brltty
-# 3.9 - AdamW 2008/07
-Patch3:		brltty-4.0-javainclude.patch
 BuildRequires:	bison
 BuildRequires:	gpm-devel
 BuildRequires:	X11-devel
@@ -136,7 +130,6 @@ which directly accesses a refreshable braille display.
 %setup -q
 %patch0 -p1 -b .varargs
 %patch1 -p1 -b .dontstrip
-%patch3 -p1 -b .javainclude
 
 %build
 # must set this explicitly or else it detects it as /usr and the
