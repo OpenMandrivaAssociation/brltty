@@ -28,7 +28,10 @@ Patch5:		brltty-parallel.patch
 Patch6:		brltty-autoconf-quote.patch
 BuildRequires:	bison
 BuildRequires:	gpm-devel
-BuildRequires:	X11-devel
+BuildRequires:	libx11-devel
+BuildRequires:	libxaw-devel
+BuildRequires:	libxt-devel
+BuildRequires:	libxtst-devel
 Buildrequires:	python-devel
 Buildrequires:  ncursesw-devel
 Buildrequires:	bluez-devel
