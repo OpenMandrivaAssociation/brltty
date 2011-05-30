@@ -15,17 +15,16 @@
 %endif
 
 Name:		brltty
-Version:	4.1
-Release:	%mkrel 7
+Version:	4.2
+Release:	%mkrel 1
 License:	GPLv2+
 Group:		System/Servers
 URL:		http://mielke.cc/brltty/
 Source0:	http://mielke.cc/brltty/releases/%{name}-%{version}.tar.gz
-Patch0:		brltty-3.9-varargs.patch
-# Fedora patches
-Patch4:		brltty-cppflags.patch
-Patch5:		brltty-parallel.patch
-Patch6:		brltty-autoconf-quote.patch
+Patch0:		brltty-cppflags.patch
+Patch1:		brltty-autoconf-quote.patch
+Patch2:		brltty-4.2-S_ISCHR.patch
+Patch3:		brltty-parallel.patch
 BuildRequires:	bison
 BuildRequires:	gpm-devel
 BuildRequires:	libx11-devel
@@ -132,12 +131,12 @@ Install this package if you have a Ocaml application
 which directly accesses a refreshable braille display.
 
 %prep
-%setup -q
-%patch0 -p1 -b .varargs
 
-%patch4 -p1 -b .cppflags
-%patch5 -p1 -b .parallel
-%patch6 -p1 -b .quote
+%setup -q
+%patch0 -p1 -b .cppflags
+%patch1 -p1 -b .quote
+%patch2 -p1 -b .S_ISCHR
+%patch3 -p1 -b .parallel
 
 %build
 # Patch6 changes aclocal.m4:
