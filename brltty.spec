@@ -116,16 +116,27 @@ which is the Application Programming Interface to BRLTTY.
 Install this package if you have a Python application
 which directly accesses a refreshable braille display.
 
-%package -n	brlapi-ocaml
+%package -n	ocaml-brlapi
 Summary:	Ocaml bindings for BrlAPI
 Group:		Development/Other
+%rename		brlapi-ocaml
 
-%description -n	brlapi-ocaml
+%description -n	ocaml-brlapi
 This package provides the Ocaml bindings for BrlAPI,
 which is the Application Programming Interface to BRLTTY.
 
 Install this package if you have a Ocaml application
 which directly accesses a refreshable braille display.
+
+%package -n	ocaml-brlapi-devel
+Summary:	Development files for ocaml-brlapi
+Group:		Development/Other
+Requires:	ocaml-brlapi = %{EVRD}
+Requires:	brlapi-devel = %{EVRD}
+
+%description -n	ocaml-brlapi-devel
+The ocaml-brlapi-devel package contains libraries and signature files for
+developing applications that use ocaml-brlapi.
 
 %prep
 %setup -q
@@ -150,6 +161,9 @@ done
 make install
 install -m644 Documents/%{name}.conf -D %{buildroot}%{_sysconfdir}/%{name}.conf
 install -m644 Documents/%{name}.1 -D %{buildroot}%{_mandir}/man1/%{name}.1
+
+# Missing ocaml library
+cp Bindings/OCaml/*.cmx '%{buildroot}%{_prefix}/%{_lib}/ocaml/brlapi/'
 
 directory="doc"
 mkdir -p "${directory}"
@@ -190,6 +204,15 @@ done
 %{py_platsitedir}/brlapi.*
 %{py_platsitedir}/Brlapi-*
 
-%files -n brlapi-ocaml
-%{_prefix}/%{_lib}/ocaml/brlapi
-%{_prefix}/%{_lib}/ocaml/stublibs/dllbrlapi_stubs.so*
+%files -n ocaml-brlapi
+%dir %{_prefix}/%{_lib}/ocaml/brlapi
+%{_prefix}/%{_lib}/ocaml/brlapi/META
+%{_prefix}/%{_lib}/ocaml/brlapi/*.cma
+%{_prefix}/%{_lib}/ocaml/brlapi/*.cmi
+%{_prefix}/%{_lib}/ocaml/stublibs/*.so*
+
+%files -n ocaml-brlapi-devel
+%{_prefix}/%{_lib}/ocaml/brlapi/*.a
+%{_prefix}/%{_lib}/ocaml/brlapi/*.cmxa
+%{_prefix}/%{_lib}/ocaml/brlapi/*.cmx
+%{_prefix}/%{_lib}/ocaml/brlapi/*.mli
