@@ -140,7 +140,7 @@ developing applications that use ocaml-brlapi.
 
 %prep
 %setup -q
-%patch0 -p1 -b .cppflags
+%patch0 -p1 -b .cppflags~
 %patch1 -p1 -b .includes~
 autoconf
 
