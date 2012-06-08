@@ -22,6 +22,7 @@ Group:		System/Servers
 URL:		http://mielke.cc/brltty/
 Source0:	http://mielke.cc/brltty/releases/%{name}-%{version}.tar.gz
 Patch0:		brltty-cppflags.patch
+Patch1:		brltty-4.4-add-missing-include-path.patch
 BuildRequires:	bison
 BuildRequires:	gpm-devel
 BuildRequires:	libx11-devel
@@ -131,6 +132,7 @@ which directly accesses a refreshable braille display.
 
 %setup -q
 %patch0 -p1 -b .cppflags
+%patch1 -p1 -b .includes~
 #patch1 -p1 -b .quote
 #patch2 -p1 -b .S_ISCHR
 #patch3 -p1 -b .parallel
