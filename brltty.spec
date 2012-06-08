@@ -8,10 +8,10 @@
 %define libname		%mklibname brlapi %{major}
 %define develname	%mklibname brlapi -d
 
-%ifarch %arm %mips
-%define build_java 0
+%ifarch %{arm} %{mips}
+%bcond_with	java
 %else
-%define build_java 1
+%bcond_without	java
 %endif
 
 Name:		brltty
@@ -39,11 +39,10 @@ Buildrequires:  libbraille-devel
 Buildrequires:  speech_tools-devel
 Buildrequires:  libalsa-devel
 BuildRequires:	subversion
-%if %{build_java}
+%if %{with java}
 Buildrequires:	java-rpmbuild
 %endif
 BuildConflicts: findlib
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Summary:	Braille display driver for Linux/Unix
 
 %description
@@ -54,21 +53,21 @@ It drives the braille display,
 and provides complete screen review functionality.
 Some speech capability has also been incorporated.
 
-%package -n %{libname}
+%package -n	%{libname}
 Summary:	API for brltty
 Group:		System/Libraries
 License:	LGPL+
 Obsoletes:	%{mklibname brlapi 0.5.1 0} <= %{version}-%{release}
 Obsoletes:	%{mklibname brlapi 0.4.1 0} <= %{version}-%{release}
 
-%description -n %{libname}
+%description -n	%{libname}
 This package provides the run-time support for the Application
 Programming Interface to BRLTTY.
 
 Install this package if you have an application which directly accesses
 a refreshable braille display.
 
-%package -n %{develname}
+%package -n	%{develname}
 Group:		Development/C
 License:	LGPL+
 Summary:	Headers, static archive, and documentation for BrlAPI
@@ -89,14 +88,14 @@ interfaces which are more specifically atuned to their needs.
 Install this package if you're developing or maintaining an application
 which directly accesses a refreshable braille display.
 
-%if %{build_java}
-%package -n brlapi-java
+%if %{with java}
+%package -n	brlapi-java
 Group:		Development/Java
 Summary:	Java bindings for BrlAPI
 Requires:	java-devel-openjdk
 Obsoletes:	%{mklibname brlapi 0.5}-java <= %{version}-%{release}
 
-%description -n brlapi-java
+%description -n	brlapi-java
 This package provides the Java bindings for BrlAPI,
 which is the Application Programming Interface to BRLTTY.
 
@@ -104,24 +103,24 @@ Install this package if you have a Java application
 which directly accesses a refreshable braille display.
 %endif
 
-%package -n brlapi-python
+%package -n	brlapi-python
 Summary:	Python bindings for BrlAPI
 Group:		Development/Python
 Obsoletes:	%{mklibname brlapi 0.5.1 0}-python <= %{version}-%{release}
 Obsoletes:	%{mklibname brlapi 0.5}-python <= %{version}-%{release}
 
-%description -n brlapi-python
+%description -n	brlapi-python
 This package provides the Python bindings for BrlAPI,
 which is the Application Programming Interface to BRLTTY.
 
 Install this package if you have a Python application
 which directly accesses a refreshable braille display.
 
-%package -n brlapi-ocaml
+%package -n	brlapi-ocaml
 Summary:	Ocaml bindings for BrlAPI
 Group:		Development/Other
 
-%description -n brlapi-ocaml
+%description -n	brlapi-ocaml
 This package provides the Ocaml bindings for BrlAPI,
 which is the Application Programming Interface to BRLTTY.
 
@@ -129,13 +128,9 @@ Install this package if you have a Ocaml application
 which directly accesses a refreshable braille display.
 
 %prep
-
 %setup -q
 %patch0 -p1 -b .cppflags
 %patch1 -p1 -b .includes~
-#patch1 -p1 -b .quote
-#patch2 -p1 -b .S_ISCHR
-#patch3 -p1 -b .parallel
 
 %build
 # Patch6 changes aclocal.m4:
@@ -151,14 +146,10 @@ done
 %make
 
 %install
-rm -rf %{buildroot}
-install -d -m 755 %{buildroot}%{_prefix}/%{_lib}/ocaml/stublibs
 # just to avoid an installation error
-touch %{buildroot}%{_prefix}/%{_lib}/ocaml/ld.conf
 make install
 install -m644 Documents/%{name}.conf -D %{buildroot}%{_sysconfdir}/%{name}.conf
 install -m644 Documents/%{name}.1 -D %{buildroot}%{_mandir}/man1/%{name}.1
-rm -f %{buildroot}%{_prefix}/%{_lib}/ocaml/ld.conf
 
 directory="doc"
 mkdir -p "${directory}"
@@ -169,20 +160,7 @@ do
    cp -rp "${file}" "${directory}/${file}"
 done
 
-
-%clean
-rm -rf %{buildroot}
-
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
-
 %files -n %{name}
-%defattr(-,root,root)
 %doc README Documents/ChangeLog Documents/TODO
 %config(noreplace) %{_sysconfdir}/%{name}.conf
 %attr(0755,root,root) %{_bindir}/*
@@ -191,11 +169,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/*
 
 %files -n %{libname}
-%defattr(-,root,root)
 %{_libdir}/*.so.%{major}*
 
 %files -n %{develname}
-%defattr(-,root,root)
 %doc Documents/BrlAPIref
 %{_libdir}/*.so
 %{_libdir}/*.a
@@ -204,19 +180,16 @@ rm -rf %{buildroot}
 %{_includedir}/brltty
 %{_mandir}/man3/*
 
-%if %{build_java}
+%if %{with java}
 %files -n brlapi-java
-%defattr(-,root,root)
 %{_prefix}/lib/java/libbrlapi_java.so
 %{_datadir}/java/brlapi.jar
 %endif
 
 %files -n brlapi-python
-%defattr(-,root,root)
 %{py_platsitedir}/brlapi.*
 %{py_platsitedir}/Brlapi-*
 
 %files -n brlapi-ocaml
-%defattr(-,root,root)
 %{_prefix}/%{_lib}/ocaml/brlapi
 %{_prefix}/%{_lib}/ocaml/stublibs/dllbrlapi_stubs.so*
