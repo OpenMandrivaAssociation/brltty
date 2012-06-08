@@ -142,10 +142,10 @@ developing applications that use ocaml-brlapi.
 %setup -q
 %patch0 -p1 -b .cppflags
 %patch1 -p1 -b .includes~
+autoconf
 
 %build
 # Patch6 changes aclocal.m4:
-autoconf
 for i in -I/usr/lib/jvm/java/include{,/linux}; do
       java_inc="$java_inc $i"
 done
