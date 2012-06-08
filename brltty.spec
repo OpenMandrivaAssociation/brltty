@@ -15,16 +15,13 @@
 %endif
 
 Name:		brltty
-Version:	4.2
-Release:	%mkrel 1
+Version:	4.4
+Release:	1
 License:	GPLv2+
 Group:		System/Servers
 URL:		http://mielke.cc/brltty/
 Source0:	http://mielke.cc/brltty/releases/%{name}-%{version}.tar.gz
 Patch0:		brltty-cppflags.patch
-Patch1:		brltty-autoconf-quote.patch
-Patch2:		brltty-4.2-S_ISCHR.patch
-Patch3:		brltty-parallel.patch
 BuildRequires:	bison
 BuildRequires:	gpm-devel
 BuildRequires:	libx11-devel
@@ -134,9 +131,9 @@ which directly accesses a refreshable braille display.
 
 %setup -q
 %patch0 -p1 -b .cppflags
-%patch1 -p1 -b .quote
-%patch2 -p1 -b .S_ISCHR
-%patch3 -p1 -b .parallel
+#patch1 -p1 -b .quote
+#patch2 -p1 -b .S_ISCHR
+#patch3 -p1 -b .parallel
 
 %build
 # Patch6 changes aclocal.m4:
