@@ -1,0 +1,11 @@
+--- brltty-4.4/Bindings/Java/Makefile.in~	2012-06-08 01:41:44.991166234 +0200
++++ brltty-4.4/Bindings/Java/Makefile.in	2012-06-08 02:10:43.894426954 +0200
+@@ -57,7 +57,7 @@ $(JAVA_JNI_FILE): bindings.$O $(API_NAME
+ 	$(MKLIB:<name>=$(API_NAME)) $@ bindings.$O $(API_LDFLAGS)
+ 
+ bindings.$O:
+-	$(CC) $(CPPFLAGS) $(LIBCFLAGS) $(JAVA_JNI_FLAGS) -o $@ -c $(SRC_DIR)/bindings.c
++	$(CC) $(CPPFLAGS) -I $(BLD_TOP)$(PGM_DIR) $(LIBCFLAGS) $(JAVA_JNI_FLAGS) -o $@ -c $(SRC_DIR)/bindings.c
+ 
+ JAVA_JAR_FILE = $(API_NAME).jar
+ jar: $(JAVA_JAR_FILE)
