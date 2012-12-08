@@ -14,9 +14,10 @@
 %bcond_without	java
 %endif
 
+Summary:	Braille display driver for Linux/Unix
 Name:		brltty
 Version:	4.4
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		System/Servers
 URL:		http://mielke.cc/brltty/
@@ -25,25 +26,24 @@ Patch0:		brltty-cppflags.patch
 Patch1:		brltty-4.4-add-missing-include-path.patch
 BuildRequires:	bison
 BuildRequires:	gpm-devel
-BuildRequires:	libx11-devel
-BuildRequires:	libxaw-devel
-BuildRequires:	libxt-devel
-BuildRequires:	libxtst-devel
-Buildrequires:	python-devel
-Buildrequires:  ncursesw-devel
-Buildrequires:	bluez-devel
-Buildrequires:  python-pyrex
-Buildrequires:  ocaml
-Buildrequires:  festival-devel
-Buildrequires:  libbraille-devel
-Buildrequires:  speech_tools-devel
-Buildrequires:  libalsa-devel
+BuildRequires:  pkgconfig(alsa)
+BuildRequires:  pkgconfig(ncursesw)
+BuildRequires:	pkgconfig(x11)
+BuildRequires:	pkgconfig(xaw7)
+BuildRequires:	pkgconfig(xt)
+BuildRequires:	pkgconfig(xtst)
+BuildRequires:	python-devel
+BuildRequires:	bluez-devel
+BuildRequires:  python-pyrex
+BuildRequires:  ocaml
+BuildRequires:  festival-devel
+BuildRequires:  libbraille-devel
+BuildRequires:  speech_tools-devel
 BuildRequires:	subversion
 %if %{with java}
-Buildrequires:	java-rpmbuild
+BuildRequires:	java-rpmbuild
 %endif
 BuildConflicts: findlib
-Summary:	Braille display driver for Linux/Unix
 
 %description
 BRLTTY is a background process (daemon) which provides
@@ -71,7 +71,7 @@ a refreshable braille display.
 Group:		Development/C
 License:	LGPL+
 Summary:	Headers, static archive, and documentation for BrlAPI
-Provides:	brlapi-devel = %{version}-%{release}
+Provides:	brlapi-devel = %{EVRD}
 Requires:	%{libname} = %{version}-%{release}
 Obsoletes:	%{mklibname brlapi 0.5.1 0 -d} <= %{version}-%{release}
 Obsoletes:	%{mklibname brlapi 0.4.1 0 -d} <= %{version}-%{release}
