@@ -188,7 +188,7 @@ done
 /%{_lib}/*.so.%{major}*
 
 %files -n %{develname}
-%doc Documents/BrlAPIref
+%doc Documents/BrlAPIref/html
 /%{_lib}/*.so
 /%{_lib}/*.a
 %{_includedir}/brlapi.h
