@@ -1,6 +1,6 @@
-%define major		0.5
-%define libname		%mklibname brlapi %{major}
-%define develname	%mklibname brlapi -d
+%define major	0.5
+%define libname	%mklibname brlapi %{major}
+%define devname	%mklibname brlapi -d
 
 %ifarch %{arm} %{mips}
 %bcond_with	java
@@ -18,26 +18,27 @@ URL:		http://mielke.cc/brltty/
 Source0:	http://mielke.cc/brltty/releases/%{name}-%{version}.tar.gz
 Patch0:		brltty-cppflags.patch
 Patch1:		brltty-4.4-add-missing-include-path.patch
+
 BuildRequires:	bison
+BuildRequires:	ocaml
+BuildRequires:	python-pyrex
+BuildRequires:	subversion
+BuildRequires:	festival-devel
 BuildRequires:	gpm-devel
-BuildRequires:  pkgconfig(alsa)
-BuildRequires:  pkgconfig(ncursesw)
+BuildRequires:	libbraille-devel
+BuildRequires:	speech_tools-devel
+BuildRequires:	pkgconfig(alsa)
+BuildRequires:	pkgconfig(bluez)
+BuildRequires:	pkgconfig(ncursesw)
+BuildRequires:	pkgconfig(python)
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xaw7)
 BuildRequires:	pkgconfig(xt)
 BuildRequires:	pkgconfig(xtst)
-BuildRequires:	python-devel
-BuildRequires:	bluez-devel
-BuildRequires:  python-pyrex
-BuildRequires:  ocaml
-BuildRequires:  festival-devel
-BuildRequires:  libbraille-devel
-BuildRequires:  speech_tools-devel
-BuildRequires:	subversion
 %if %{with java}
 BuildRequires:	java-rpmbuild
 %endif
-BuildConflicts: findlib
+BuildConflicts:	findlib
 
 %description
 BRLTTY is a background process (daemon) which provides
@@ -50,9 +51,7 @@ Some speech capability has also been incorporated.
 %package -n	%{libname}
 Summary:	API for brltty
 Group:		System/Libraries
-License:	LGPL+
-Obsoletes:	%{mklibname brlapi 0.5.1 0} <= %{version}-%{release}
-Obsoletes:	%{mklibname brlapi 0.4.1 0} <= %{version}-%{release}
+License:	LGPLv2+
 
 %description -n	%{libname}
 This package provides the run-time support for the Application
@@ -61,16 +60,14 @@ Programming Interface to BRLTTY.
 Install this package if you have an application which directly accesses
 a refreshable braille display.
 
-%package -n	%{develname}
+%package -n	%{devname}
 Group:		Development/C
-License:	LGPL+
+License:	LGPLv2+
 Summary:	Headers, static archive, and documentation for BrlAPI
 Provides:	brlapi-devel = %{EVRD}
 Requires:	%{libname} = %{version}-%{release}
-Obsoletes:	%{mklibname brlapi 0.5.1 0 -d} <= %{version}-%{release}
-Obsoletes:	%{mklibname brlapi 0.4.1 0 -d} <= %{version}-%{release}
 
-%description -n %{develname}
+%description -n %{devname}
 This package provides the header files, static archive, shared object
 linker reference, and reference documentation for BrlAPI (the
 Application Programming Interface to BRLTTY).  It enables the
@@ -87,7 +84,6 @@ which directly accesses a refreshable braille display.
 Group:		Development/Java
 Summary:	Java bindings for BrlAPI
 Requires:	java-devel-openjdk
-Obsoletes:	%{mklibname brlapi 0.5}-java <= %{version}-%{release}
 
 %description -n	brlapi-java
 This package provides the Java bindings for BrlAPI,
@@ -100,8 +96,6 @@ which directly accesses a refreshable braille display.
 %package -n	brlapi-python
 Summary:	Python bindings for BrlAPI
 Group:		Development/Python
-Obsoletes:	%{mklibname brlapi 0.5.1 0}-python <= %{version}-%{release}
-Obsoletes:	%{mklibname brlapi 0.5}-python <= %{version}-%{release}
 
 %description -n	brlapi-python
 This package provides the Python bindings for BrlAPI,
@@ -147,13 +141,15 @@ done
 %ifarch %{ix86}
 export CC="%{__cc} -fuse-ld=bfd"
 %endif
-%configure2_5x	CPPFLAGS="$java_inc" \
-		--bindir=/bin \
-		--libdir=/%{_lib} \
-		--with-install-root="%{buildroot}" \
-		--disable-relocatable-install \
-		--disable-tcl-bindings \
-		--disable-stripping
+%configure2_5x	\
+	CPPFLAGS="$java_inc" \
+	--bindir=/bin \
+	--libdir=/%{_lib} \
+	--with-install-root="%{buildroot}" \
+	--disable-relocatable-install \
+	--disable-tcl-bindings \
+	--disable-stripping \
+	--disable-static
 %make
 
 %install
@@ -182,7 +178,7 @@ done
 %files -n %{name}
 %doc README Documents/ChangeLog Documents/TODO
 %config(noreplace) %{_sysconfdir}/%{name}.conf
-%attr(0755,root,root) /bin/*
+/bin/*
 %{_bindir}/*
 %{_sysconfdir}/%{name}
 /%{_lib}/%{name}
@@ -191,7 +187,7 @@ done
 %files -n %{libname}
 /%{_lib}/*.so.%{major}*
 
-%files -n %{develname}
+%files -n %{devname}
 %doc Documents/BrlAPIref/html
 /%{_lib}/*.so
 /%{_lib}/*.a
@@ -222,3 +218,4 @@ done
 %{_libdir}/ocaml/brlapi/*.cmxa
 %{_libdir}/ocaml/brlapi/*.cmx
 %{_libdir}/ocaml/brlapi/*.mli
+
