@@ -1,9 +1,3 @@
-%define	_bindir	/bin
-%define	_libdir /lib
-%ifarch x86_64
-%define	_libdir /lib64
-%endif
-
 %define major		0.5
 %define libname		%mklibname brlapi %{major}
 %define develname	%mklibname brlapi -d
@@ -150,6 +144,8 @@ for i in -I/usr/lib/jvm/java/include{,/linux}; do
       java_inc="$java_inc $i"
 done
 %configure2_5x	CPPFLAGS="$java_inc" \
+		--bindir=/bin \
+		--libdir=/%{_lib} \
 		--with-install-root="%{buildroot}" \
 		--disable-relocatable-install \
 		--disable-tcl-bindings \
@@ -162,8 +158,13 @@ make install
 install -m644 Documents/%{name}.conf -D %{buildroot}%{_sysconfdir}/%{name}.conf
 install -m644 Documents/%{name}.1 -D %{buildroot}%{_mandir}/man1/%{name}.1
 
+install -d %{buildroot}%{_bindir}
+for f in brltty-config brltty-ctb /brltty-install xbrlapi; do
+	mv "%{buildroot}/bin/$f" "%{buildroot}%{_bindir}/$f"
+done
+
 # Missing ocaml library
-cp Bindings/OCaml/*.cmx '%{buildroot}%{_prefix}/%{_lib}/ocaml/brlapi/'
+cp Bindings/OCaml/*.cmx '%{buildroot}%{_libdir}/ocaml/brlapi/'
 
 directory="doc"
 mkdir -p "${directory}"
@@ -177,18 +178,19 @@ done
 %files -n %{name}
 %doc README Documents/ChangeLog Documents/TODO
 %config(noreplace) %{_sysconfdir}/%{name}.conf
-%attr(0755,root,root) %{_bindir}/*
+%attr(0755,root,root) /bin/*
+%{_bindir}/*
 %{_sysconfdir}/%{name}
-%{_libdir}/%{name}
+/%{_lib}/%{name}
 %{_mandir}/man1/*
 
 %files -n %{libname}
-%{_libdir}/*.so.%{major}*
+/%{_lib}/*.so.%{major}*
 
 %files -n %{develname}
 %doc Documents/BrlAPIref
-%{_libdir}/*.so
-%{_libdir}/*.a
+/%{_lib}/*.so
+/%{_lib}/*.a
 %{_includedir}/brlapi.h
 %{_includedir}/brlapi_*.h
 %{_includedir}/brltty
@@ -205,14 +207,14 @@ done
 %{py_platsitedir}/Brlapi-*
 
 %files -n ocaml-brlapi
-%dir %{_prefix}/%{_lib}/ocaml/brlapi
-%{_prefix}/%{_lib}/ocaml/brlapi/META
-%{_prefix}/%{_lib}/ocaml/brlapi/*.cma
-%{_prefix}/%{_lib}/ocaml/brlapi/*.cmi
-%{_prefix}/%{_lib}/ocaml/stublibs/*.so*
+%dir %{_libdir}/ocaml/brlapi
+%{_libdir}/ocaml/brlapi/META
+%{_libdir}/ocaml/brlapi/*.cma
+%{_libdir}/ocaml/brlapi/*.cmi
+%{_libdir}/ocaml/stublibs/*.so*
 
 %files -n ocaml-brlapi-devel
-%{_prefix}/%{_lib}/ocaml/brlapi/*.a
-%{_prefix}/%{_lib}/ocaml/brlapi/*.cmxa
-%{_prefix}/%{_lib}/ocaml/brlapi/*.cmx
-%{_prefix}/%{_lib}/ocaml/brlapi/*.mli
+%{_libdir}/ocaml/brlapi/*.a
+%{_libdir}/ocaml/brlapi/*.cmxa
+%{_libdir}/ocaml/brlapi/*.cmx
+%{_libdir}/ocaml/brlapi/*.mli
