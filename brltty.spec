@@ -18,10 +18,13 @@ Url:		http://mielke.cc/brltty/
 Source0:	http://mielke.cc/brltty/releases/%{name}-%{version}.tar.gz
 Patch0:		brltty-cppflags.patch
 Patch1:		brltty-4.4-add-missing-include-path.patch
+# from ubuntu with slight mod for py3
+# adds BR python3-cython, drops python-pyrex
+Patch2:		40-cython.patch
 
 BuildRequires:	bison
 BuildRequires:	ocaml
-BuildRequires:	python-pyrex
+BuildRequires:	python3-cython
 BuildRequires:	subversion
 BuildRequires:	festival-devel
 BuildRequires:	gpm-devel
@@ -30,7 +33,7 @@ BuildRequires:	speech_tools-devel
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(bluez)
 BuildRequires:	pkgconfig(ncursesw)
-BuildRequires:	pkgconfig(python)
+BuildRequires:	pkgconfig(python3)
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xaw7)
 BuildRequires:	pkgconfig(xt)
@@ -127,8 +130,7 @@ developing applications that use ocaml-brlapi.
 
 %prep
 %setup -q
-%patch0 -p1 -b .cppflags~
-%patch1 -p1 -b .includes~
+%apply_patches
 autoconf
 
 %build
@@ -147,8 +149,7 @@ export CC="%{__cc} -fuse-ld=bfd"
 	--with-install-root="%{buildroot}" \
 	--disable-relocatable-install \
 	--disable-tcl-bindings \
-	--disable-stripping \
-	--disable-static
+	--disable-stripping
 %make
 
 %install
@@ -203,8 +204,8 @@ done
 %endif
 
 %files -n python-brlapi
-%{py_platsitedir}/brlapi.*
-%{py_platsitedir}/Brlapi-*
+%{py3_platsitedir}/brlapi.*
+%{py3_platsitedir}/Brlapi-*
 
 %files -n ocaml-brlapi
 %dir %{_libdir}/ocaml/brlapi
