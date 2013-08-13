@@ -11,10 +11,10 @@
 Summary:	Braille display driver for Linux/Unix
 Name:		brltty
 Version:	4.4
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		System/Servers
-URL:		http://mielke.cc/brltty/
+Url:		http://mielke.cc/brltty/
 Source0:	http://mielke.cc/brltty/releases/%{name}-%{version}.tar.gz
 Patch0:		brltty-cppflags.patch
 Patch1:		brltty-4.4-add-missing-include-path.patch
@@ -61,10 +61,10 @@ Install this package if you have an application which directly accesses
 a refreshable braille display.
 
 %package -n	%{devname}
+Summary:	Headers, static archive, and documentation for BrlAPI
 Group:		Development/C
 License:	LGPLv2+
-Summary:	Headers, static archive, and documentation for BrlAPI
-Provides:	brlapi-devel = %{EVRD}
+Provides:	brlapi-devel = %{version}-%{release}
 Requires:	%{libname} = %{version}-%{release}
 
 %description -n %{devname}
@@ -76,16 +76,14 @@ refreshable braille display in order to present information in ways
 which are more appropriate for blind users and/or to provide user
 interfaces which are more specifically atuned to their needs.
 
-Install this package if you're developing or maintaining an application
-which directly accesses a refreshable braille display.
-
 %if %{with java}
-%package -n	brlapi-java
-Group:		Development/Java
+%package -n	java-brlapi
 Summary:	Java bindings for BrlAPI
+Group:		Development/Java
 Requires:	java-devel-openjdk
+%rename		brlapi-java
 
-%description -n	brlapi-java
+%description -n	java-brlapi
 This package provides the Java bindings for BrlAPI,
 which is the Application Programming Interface to BRLTTY.
 
@@ -93,11 +91,12 @@ Install this package if you have a Java application
 which directly accesses a refreshable braille display.
 %endif
 
-%package -n	brlapi-python
+%package -n	python-brlapi
 Summary:	Python bindings for BrlAPI
 Group:		Development/Python
+%rename		brlapi-python
 
-%description -n	brlapi-python
+%description -n	python-brlapi
 This package provides the Python bindings for BrlAPI,
 which is the Application Programming Interface to BRLTTY.
 
@@ -119,8 +118,8 @@ which directly accesses a refreshable braille display.
 %package -n	ocaml-brlapi-devel
 Summary:	Development files for ocaml-brlapi
 Group:		Development/Other
-Requires:	ocaml-brlapi = %{EVRD}
-Requires:	brlapi-devel = %{EVRD}
+Requires:	ocaml-brlapi = %{version}-%{release}
+Requires:	brlapi-devel = %{version}-%{release}
 
 %description -n	ocaml-brlapi-devel
 The ocaml-brlapi-devel package contains libraries and signature files for
@@ -155,6 +154,8 @@ export CC="%{__cc} -fuse-ld=bfd"
 %install
 # just to avoid an installation error
 make install
+rm -f %{buildroot}/%{_lib}/*.a %{buildroot}%{_libdir}/ocaml/brlapi/*.a
+
 install -m644 Documents/%{name}.conf -D %{buildroot}%{_sysconfdir}/%{name}.conf
 install -m644 Documents/%{name}.1 -D %{buildroot}%{_mandir}/man1/%{name}.1
 
@@ -185,24 +186,23 @@ done
 %{_mandir}/man1/*
 
 %files -n %{libname}
-/%{_lib}/*.so.%{major}*
+/%{_lib}/libbrlapi.so.%{major}*
 
 %files -n %{devname}
 %doc Documents/BrlAPIref/html
 /%{_lib}/*.so
-/%{_lib}/*.a
 %{_includedir}/brlapi.h
 %{_includedir}/brlapi_*.h
 %{_includedir}/brltty
 %{_mandir}/man3/*
 
 %if %{with java}
-%files -n brlapi-java
+%files -n java-brlapi
 %{_prefix}/lib/java/libbrlapi_java.so
 %{_datadir}/java/brlapi.jar
 %endif
 
-%files -n brlapi-python
+%files -n python-brlapi
 %{py_platsitedir}/brlapi.*
 %{py_platsitedir}/Brlapi-*
 
@@ -214,7 +214,6 @@ done
 %{_libdir}/ocaml/stublibs/*.so*
 
 %files -n ocaml-brlapi-devel
-%{_libdir}/ocaml/brlapi/*.a
 %{_libdir}/ocaml/brlapi/*.cmxa
 %{_libdir}/ocaml/brlapi/*.cmx
 %{_libdir}/ocaml/brlapi/*.mli
