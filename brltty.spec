@@ -11,7 +11,7 @@
 Summary:	Braille display driver for Linux/Unix
 Name:		brltty
 Version:	4.4
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		System/Servers
 Url:		http://mielke.cc/brltty/
@@ -94,12 +94,11 @@ Install this package if you have a Java application
 which directly accesses a refreshable braille display.
 %endif
 
-%package -n	python-brlapi
+%package -n	python3-brlapi
 Summary:	Python bindings for BrlAPI
 Group:		Development/Python
-%rename		brlapi-python
 
-%description -n	python-brlapi
+%description -n	python3-brlapi
 This package provides the Python bindings for BrlAPI,
 which is the Application Programming Interface to BRLTTY.
 
@@ -203,7 +202,7 @@ done
 %{_datadir}/java/brlapi.jar
 %endif
 
-%files -n python-brlapi
+%files -n python3-brlapi
 %{py3_platsitedir}/brlapi.*
 %{py3_platsitedir}/Brlapi-*
 
