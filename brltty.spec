@@ -133,6 +133,13 @@ developing applications that use ocaml-brlapi.
 autoconf
 
 %build
+%ifarch %{arm}
+%global ldflags %{ldflags} -fuse-ld=bfd
+mkdir bin
+ln -sf %{_bindir}/ld.bfd bin/ld
+export PATH=$PWD/bin:$PATH
+%endif
+
 # Patch6 changes aclocal.m4:
 for i in -I/usr/lib/jvm/java/include{,/linux}; do
       java_inc="$java_inc $i"
