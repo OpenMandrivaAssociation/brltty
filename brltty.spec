@@ -11,7 +11,7 @@
 Summary:	Braille display driver for Linux/Unix
 Name:		brltty
 Version:	4.4
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		System/Servers
 URL:		http://mielke.cc/brltty/
