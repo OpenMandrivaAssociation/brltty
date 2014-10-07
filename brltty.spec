@@ -37,6 +37,7 @@ BuildRequires:	pkgconfig(xt)
 BuildRequires:	pkgconfig(xtst)
 %if %{with java}
 BuildRequires:	java-rpmbuild
+BuildRequires:	java-devel
 %endif
 BuildConflicts:	findlib
 
