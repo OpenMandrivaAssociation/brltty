@@ -1,2 +1,4 @@
+removed_sources:
+  brltty-4.4.tar.gz: 6b3d72740fe4b632eb4f0c980eaccf79d3fb294b
 sources:
-  "brltty-4.4.tar.gz": 6b3d72740fe4b632eb4f0c980eaccf79d3fb294b
+  brltty-5.1.tar.xz: 2e96fb0197d9161d6aedcd62639b5c8214fe90a9

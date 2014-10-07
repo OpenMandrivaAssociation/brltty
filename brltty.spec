@@ -1,4 +1,4 @@
-%define major	0.5
+%define major	0.6
 %define libname	%mklibname brlapi %{major}
 %define devname	%mklibname brlapi -d
 
@@ -10,21 +10,18 @@
 
 Summary:	Braille display driver for Linux/Unix
 Name:		brltty
-Version:	4.4
-Release:	10
+Version:	5.1
+Release:	1
 License:	GPLv2+
 Group:		System/Servers
 Url:		http://mielke.cc/brltty/
-Source0:	http://mielke.cc/brltty/releases/%{name}-%{version}.tar.gz
+Source0:	http://mielke.cc/brltty/releases/%{name}-%{version}.tar.xz
 Patch0:		brltty-cppflags.patch
 Patch1:		brltty-4.4-add-missing-include-path.patch
-# from ubuntu with slight mod for py3
-# adds BR python3-cython, drops python-pyrex
-Patch2:		40-cython.patch
 
 BuildRequires:	bison
 BuildRequires:	ocaml
-BuildRequires:	python3-cython
+BuildRequires:	python-cython
 BuildRequires:	subversion
 BuildRequires:	festival-devel
 BuildRequires:	gpm-devel
@@ -94,11 +91,12 @@ Install this package if you have a Java application
 which directly accesses a refreshable braille display.
 %endif
 
-%package -n	python3-brlapi
+%package -n	python-brlapi
 Summary:	Python bindings for BrlAPI
 Group:		Development/Python
+Obsoletes:	python3-brlapi
 
-%description -n	python3-brlapi
+%description -n	python-brlapi
 This package provides the Python bindings for BrlAPI,
 which is the Application Programming Interface to BRLTTY.
 
@@ -183,12 +181,17 @@ do
    cp -rp "${file}" "${directory}/${file}"
 done
 
-%files -n %{name}
+# handle locales
+%find_lang %{name}
+
+%files -n %{name} -f %{name}.lang
 %doc README Documents/ChangeLog Documents/TODO
 %config(noreplace) %{_sysconfdir}/%{name}.conf
 /bin/*
 %{_bindir}/*
+%exclude %{_bindir}/brltty-config
 %{_sysconfdir}/%{name}
+%{_datadir}/gdm/greeter/autostart/xbrlapi.desktop
 /%{_lib}/%{name}
 %{_mandir}/man1/*
 
@@ -196,6 +199,7 @@ done
 /%{_lib}/libbrlapi.so.%{major}*
 
 %files -n %{devname}
+%{_bindir}/brltty-config
 %doc Documents/BrlAPIref/html
 /%{_lib}/*.so
 %{_includedir}/brlapi.h
@@ -209,7 +213,7 @@ done
 %{_datadir}/java/brlapi.jar
 %endif
 
-%files -n python3-brlapi
+%files -n python-brlapi
 %{py3_platsitedir}/brlapi.*
 %{py3_platsitedir}/Brlapi-*
 
