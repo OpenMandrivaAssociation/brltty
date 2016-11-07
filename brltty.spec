@@ -2,7 +2,7 @@
 %define libname	%mklibname brlapi %{major}
 %define devname	%mklibname brlapi -d
 
-%ifarch %{arm} %{mips}
+%ifarch %{armx} %{mips} x86_64
 %bcond_with	java
 %else
 %bcond_without	java
@@ -10,14 +10,17 @@
 
 Summary:	Braille display driver for Linux/Unix
 Name:		brltty
-Version:	5.1
-Release:	3
+Version:	5.4
+Release:	1
 License:	GPLv2+
 Group:		System/Servers
 Url:		http://mielke.cc/brltty/
 Source0:	http://mielke.cc/brltty/releases/%{name}-%{version}.tar.xz
 Patch0:		brltty-cppflags.patch
 Patch1:		brltty-4.4-add-missing-include-path.patch
+Patch3:		brltty-5.2-fix-ldflags.patch
+Patch4:		brltty-5.2-respect-AR.patch
+Patch5:		brltty-5.2-udev.patch
 
 BuildRequires:	bison
 BuildRequires:	ocaml
@@ -147,7 +150,7 @@ done
 %ifarch %{ix86}
 export CC="%{__cc} -fuse-ld=bfd"
 %endif
-%configure2_5x	\
+%configure	\
 	CPPFLAGS="$java_inc" \
 	--bindir=/bin \
 	--libdir=/%{_lib} \
@@ -229,4 +232,3 @@ done
 %{_libdir}/ocaml/brlapi/*.cmxa
 %{_libdir}/ocaml/brlapi/*.cmx
 %{_libdir}/ocaml/brlapi/*.mli
-
