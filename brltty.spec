@@ -1,4 +1,6 @@
-%define major	0.6
+%global _disable_ld_no_undefined 1
+
+%define major	0.7
 %define libname	%mklibname brlapi %{major}
 %define devname	%mklibname brlapi -d
 
@@ -10,14 +12,15 @@
 
 Summary:	Braille display driver for Linux/Unix
 Name:		brltty
-Version:	5.1
-Release:	5
+Version:	6.0
+Release:	1
 License:	GPLv2+
 Group:		System/Servers
 Url:		http://mielke.cc/brltty/
-Source0:	http://mielke.cc/brltty/releases/%{name}-%{version}.tar.xz
+Source0:	http://mielke.cc/brltty/archive/brltty-%{version}.tar.xz
 Patch0:		brltty-cppflags.patch
 Patch1:		brltty-4.4-add-missing-include-path.patch
+Patch2:		brltty-6.0-no--L_usr_lib.patch
 
 BuildRequires:	bison
 BuildRequires:	ocaml
@@ -132,22 +135,11 @@ developing applications that use ocaml-brlapi.
 autoconf
 
 %build
-%ifarch %{arm}
-%global ldflags %{ldflags} -fuse-ld=bfd
-mkdir bin
-ln -sf %{_bindir}/ld.bfd bin/ld
-export PATH=$PWD/bin:$PATH
-%endif
-
 # Patch6 changes aclocal.m4:
 for i in -I/usr/lib/jvm/java/include{,/linux}; do
       java_inc="$java_inc $i"
 done
-# FIXME: gold linker dies with internal error in convert_types, at ../../gold/gold.h:192 on i586
-%ifarch %{ix86}
-export CC="%{__cc} -fuse-ld=bfd"
-%endif
-%configure2_5x	\
+%configure \
 	CPPFLAGS="$java_inc" \
 	--bindir=/bin \
 	--libdir=/%{_lib} \
@@ -166,7 +158,7 @@ install -m644 Documents/%{name}.conf -D %{buildroot}%{_sysconfdir}/%{name}.conf
 install -m644 Documents/%{name}.1 -D %{buildroot}%{_mandir}/man1/%{name}.1
 
 install -d %{buildroot}%{_bindir}
-for f in brltty-config brltty-ctb /brltty-install xbrlapi; do
+for f in brltty-config brltty-ctb xbrlapi; do
 	mv "%{buildroot}/bin/$f" "%{buildroot}%{_bindir}/$f"
 done
 
@@ -190,11 +182,13 @@ done
 %config(noreplace) %{_sysconfdir}/%{name}.conf
 /bin/*
 %{_bindir}/*
+%{_sysconfdir}/X11/Xsession.d/60xbrlapi
 %exclude %{_bindir}/brltty-config
 %{_sysconfdir}/%{name}
 %{_datadir}/gdm/greeter/autostart/xbrlapi.desktop
 /%{_lib}/%{name}
 %{_mandir}/man1/*
+%{_datadir}/polkit-1/actions/org.a11y.brlapi.policy
 
 %files -n %{libname}
 /%{_lib}/libbrlapi.so.%{major}*
@@ -210,7 +204,6 @@ done
 
 %if %{with java}
 %files -n java-brlapi
-%{_prefix}/lib/java/libbrlapi_java.so
 %{_datadir}/java/brlapi.jar
 %endif
 
@@ -223,10 +216,9 @@ done
 %{_libdir}/ocaml/brlapi/META
 %{_libdir}/ocaml/brlapi/*.cma
 %{_libdir}/ocaml/brlapi/*.cmi
-%{_libdir}/ocaml/stublibs/*.so*
+%{_libdir}/ocaml/brlapi/dllbrlapi_stubs.so
 
 %files -n ocaml-brlapi-devel
 %{_libdir}/ocaml/brlapi/*.cmxa
 %{_libdir}/ocaml/brlapi/*.cmx
 %{_libdir}/ocaml/brlapi/*.mli
-

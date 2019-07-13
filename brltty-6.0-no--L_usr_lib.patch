@@ -1,0 +1,49 @@
+diff -up brltty-6.0/configure.ac.omv~ brltty-6.0/configure.ac
+--- brltty-6.0/configure.ac.omv~	2019-07-13 17:33:28.220654347 +0200
++++ brltty-6.0/configure.ac	2019-07-13 17:33:53.813653105 +0200
+@@ -1549,7 +1549,7 @@ BRLTTY_BRAILLE_DRIVER([hw], [HumanWare])
+ BRLTTY_BRAILLE_DRIVER([ir], [Iris])
+ BRLTTY_BRAILLE_DRIVER([ic], [Inceptor])
+ BRLTTY_IF_PACKAGE([Libbraille], [libbraille], [include/braille.h], [dnl
+-   BRLTTY_BRAILLE_DRIVER([lb], [Libbraille], [-L$(LIBBRAILLE_ROOT)/lib -lbraille])
++   BRLTTY_BRAILLE_DRIVER([lb], [Libbraille], [-lbraille])
+ ])
+ BRLTTY_BRAILLE_DRIVER([lt], [LogText])
+ BRLTTY_BRAILLE_DRIVER([mb], [MultiBraille])
+@@ -1783,11 +1783,11 @@ BRLTTY_ARG_DISABLE(
+    BRLTTY_SPEECH_DRIVER([cb], [CombiBraille])
+ 
+    BRLTTY_IF_PACKAGE([eSpeak-NG], [espeak_ng], [include/espeak-ng/speak_lib.h], [dnl
+-      BRLTTY_SPEECH_DRIVER([en], [eSpeak-NG], [-L$(ESPEAK_NG_ROOT)/lib -lespeak-ng])
++      BRLTTY_SPEECH_DRIVER([en], [eSpeak-NG], [-lespeak-ng])
+    ])
+ 
+    BRLTTY_IF_PACKAGE([eSpeak], [espeak], [include/espeak/speak_lib.h], [dnl
+-      BRLTTY_SPEECH_DRIVER([es], [eSpeak], [-L$(ESPEAK_ROOT)/lib -lespeak])
++      BRLTTY_SPEECH_DRIVER([es], [eSpeak], [-lespeak])
+    ])
+ 
+    BRLTTY_IF_PACKAGE([FestivalLite], [flite], [include/flite/flite.h], [dnl
+@@ -1809,7 +1809,7 @@ BRLTTY_ARG_DISABLE(
+          [flite_voice], ["cmu_us_kal"]
+       )
+ 
+-      BRLTTY_SPEECH_DRIVER([fl], [FestivalLite], [-L$(FLITE_ROOT)/lib -lflite_$(FLITE_VOICE) -lflite_$(FLITE_LEXICON) -lflite_$(FLITE_LANGUAGE) -lflite -lm])
++      BRLTTY_SPEECH_DRIVER([fl], [FestivalLite], [-lflite_$(FLITE_VOICE) -lflite_$(FLITE_LEXICON) -lflite_$(FLITE_LANGUAGE) -lflite -lm])
+    ])
+ 
+    BRLTTY_SPEECH_DRIVER([fv], [Festival])
+@@ -1826,11 +1826,11 @@ BRLTTY_ARG_DISABLE(
+    ], [include], [lib], [speechd])
+ 
+    BRLTTY_IF_PACKAGE([Swift], [swift], [include/swift.h], [dnl
+-      BRLTTY_SPEECH_DRIVER([sw], [Swift], [-L$(SWIFT_ROOT)/lib -lswift -lm])
++      BRLTTY_SPEECH_DRIVER([sw], [Swift], [-lswift -lm])
+    ])
+ 
+    BRLTTY_IF_PACKAGE([Theta], [theta], [include/theta.h], [dnl
+-      BRLTTY_SPEECH_DRIVER([th], [Theta], [-L$(THETA_ROOT)/lib -ltheta])
++      BRLTTY_SPEECH_DRIVER([th], [Theta], [-ltheta])
+    ])
+ 
+    AC_CHECK_HEADER([eci.h], [dnl
