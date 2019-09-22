@@ -7,7 +7,7 @@
 %ifarch %{arm} %{mips}
 %bcond_with	java
 %else
-%bcond_without	java
+%bcond_with	java
 %endif
 
 Summary:	Braille display driver for Linux/Unix
@@ -216,7 +216,7 @@ done
 %{_libdir}/ocaml/brlapi/META
 %{_libdir}/ocaml/brlapi/*.cma
 %{_libdir}/ocaml/brlapi/*.cmi
-%{_libdir}/ocaml/brlapi/dllbrlapi_stubs.so
+%{_libdir}/ocaml/stublibs/dllbrlapi_stubs.so*
 
 %files -n ocaml-brlapi-devel
 %{_libdir}/ocaml/brlapi/*.cmxa
