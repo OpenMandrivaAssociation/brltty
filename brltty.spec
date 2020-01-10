@@ -131,7 +131,7 @@ developing applications that use ocaml-brlapi.
 
 %prep
 %setup -q
-%apply_patches
+%autopatch -p1
 autoconf
 
 %build
