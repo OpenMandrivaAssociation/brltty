@@ -191,7 +191,7 @@ done
 #{_datadir}/polkit-1/actions/org.a11y.brlapi.policy
 
 %files -n %{libname}
-/%{_lib}/libbrlapi.so.%{major}*
+#/%{_lib}/libbrlapi.so.%{major}*
 
 %files -n %{devname}
 %{_bindir}/brltty-config
