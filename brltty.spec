@@ -180,15 +180,15 @@ done
 %files -n %{name} -f %{name}.lang
 %doc README Documents/ChangeLog Documents/TODO
 %config(noreplace) %{_sysconfdir}/%{name}.conf
-/bin/*
-%{_bindir}/*
-%{_sysconfdir}/X11/Xsession.d/60xbrlapi
-%exclude %{_bindir}/brltty-config
+#bin/*
+#{_bindir}/*
+#{_sysconfdir}/X11/Xsession.d/60xbrlapi
+#exclude %{_bindir}/brltty-config
 %{_sysconfdir}/%{name}
 %{_datadir}/gdm/greeter/autostart/xbrlapi.desktop
 /%{_lib}/%{name}
 %{_mandir}/man1/*
-%{_datadir}/polkit-1/actions/org.a11y.brlapi.policy
+#{_datadir}/polkit-1/actions/org.a11y.brlapi.policy
 
 %files -n %{libname}
 /%{_lib}/libbrlapi.so.%{major}*
