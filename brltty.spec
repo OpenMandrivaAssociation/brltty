@@ -158,9 +158,9 @@ install -m644 Documents/%{name}.conf -D %{buildroot}%{_sysconfdir}/%{name}.conf
 install -m644 Documents/%{name}.1 -D %{buildroot}%{_mandir}/man1/%{name}.1
 
 install -d %{buildroot}%{_bindir}
-for f in brltty-config brltty-ctb xbrlapi; do
-	mv "%{buildroot}/bin/$f" "%{buildroot}%{_bindir}/$f"
-done
+#for f in brltty-config brltty-ctb xbrlapi; do
+#	mv "%{buildroot}/bin/$f" "%{buildroot}%{_bindir}/$f"
+#done
 
 # Missing ocaml library
 cp Bindings/OCaml/*.cmx '%{buildroot}%{_libdir}/ocaml/brlapi/'
