@@ -194,13 +194,13 @@ done
 #/%{_lib}/libbrlapi.so.%{major}*
 
 %files -n %{devname}
-%{_bindir}/brltty-config
-%doc Documents/BrlAPIref/html
+#{_bindir}/brltty-config
+#doc Documents/BrlAPIref/html
 /%{_lib}/*.so
 %{_includedir}/brlapi.h
 %{_includedir}/brlapi_*.h
 %{_includedir}/brltty
-%{_mandir}/man3/*
+#{_mandir}/man3/*
 
 %if %{with java}
 %files -n java-brlapi
