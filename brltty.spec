@@ -19,7 +19,7 @@ Group:		System/Servers
 Url:		http://mielke.cc/brltty/
 Source0:	http://mielke.cc/brltty/archive/brltty-%{version}.tar.xz
 Patch0:		brltty-cppflags.patch
-Patch1:		brltty-4.4-add-missing-include-path.patch
+#Patch1:		brltty-4.4-add-missing-include-path.patch
 Patch2:		brltty-6.0-no--L_usr_lib.patch
 
 BuildRequires:	bison
