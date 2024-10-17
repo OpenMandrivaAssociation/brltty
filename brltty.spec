@@ -16,7 +16,7 @@ Version:	6.0
 Release:	4
 License:	GPLv2+
 Group:		System/Servers
-Url:		http://mielke.cc/brltty/
+Url:		https://mielke.cc/brltty/
 Source0:	http://mielke.cc/brltty/archive/brltty-%{version}.tar.xz
 Patch0:		brltty-cppflags.patch
 Patch1:		brltty-4.4-add-missing-include-path.patch
