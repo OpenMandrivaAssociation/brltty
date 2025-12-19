@@ -22,7 +22,7 @@ Patch0:		brltty-cppflags.patch
 Patch1:		brltty-4.4-add-missing-include-path.patch
 Patch2:		brltty-6.0-no--L_usr_lib.patch
 
-BuildRequires:	make autoconf m4 libtool automake
+BuildRequires:	make autoconf m4 libtool automake gettext
 BuildRequires:	bison
 BuildRequires:	ocaml
 BuildRequires:	python-cython
