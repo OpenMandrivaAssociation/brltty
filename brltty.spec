@@ -12,15 +12,15 @@
 
 Summary:	Braille display driver for Linux/Unix
 Name:		brltty
-Version:	6.0
-Release:	5
+Version:	6.9.1
+Release:	1
 License:	GPLv2+
 Group:		System/Servers
 Url:		https://mielke.cc/brltty/
 Source0:	http://mielke.cc/brltty/archive/brltty-%{version}.tar.xz
-Patch0:		brltty-cppflags.patch
-Patch1:		brltty-4.4-add-missing-include-path.patch
-Patch2:		brltty-6.0-no--L_usr_lib.patch
+# dropped (no longer applies): Patch0:		brltty-cppflags.patch
+# dropped (no longer applies): Patch1:		brltty-4.4-add-missing-include-path.patch
+# dropped (no longer applies): Patch2:		brltty-6.9.1-no--L_usr_lib.patch
 
 BuildRequires:	libtool-base
 BuildRequires:	slibtool
