@@ -13,7 +13,7 @@
 Summary:	Braille display driver for Linux/Unix
 Name:		brltty
 Version:	6.9.1
-Release:	6
+Release:	7
 License:	GPLv2+
 Group:		System/Servers
 Url:		https://mielke.cc/brltty/
@@ -191,18 +191,28 @@ done
 # handle locales
 %find_lang %{name}
 
-%files -n %{name} -f %{name}.lang
+# Optional install paths (layout varies by configure options / version)
+: > brltty-optional.files
+for f in \
+	%{_sysconfdir}/X11/Xsession.d/60xbrlapi \
+	%{_datadir}/gdm/greeter/autostart/xbrlapi.desktop \
+	%{_datadir}/polkit-1/actions/org.a11y.brlapi.policy
+do
+	[ -e "%{buildroot}$f" ] && echo "$f" >> brltty-optional.files
+done
+# Optional config dir contents
+if [ -d "%{buildroot}%{_sysconfdir}/%{name}" ]; then
+	echo "%{_sysconfdir}/%{name}" >> brltty-optional.files
+fi
+
+%files -n %{name} -f %{name}.lang -f brltty-optional.files
 %doc README Documents/ChangeLog Documents/TODO
 %config(noreplace) %{_sysconfdir}/%{name}.conf
 /bin/*
 %{_bindir}/*
-%{_sysconfdir}/X11/Xsession.d/60xbrlapi
 %exclude %{_bindir}/brltty-config
-%{_sysconfdir}/%{name}
-%{_datadir}/gdm/greeter/autostart/xbrlapi.desktop
 /%{_lib}/%{name}
 %{_mandir}/man1/*
-%{_datadir}/polkit-1/actions/org.a11y.brlapi.policy
 
 %files -n %{libname}
 /%{_lib}/libbrlapi.so.%{major}*
