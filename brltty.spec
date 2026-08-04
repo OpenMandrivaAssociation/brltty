@@ -13,7 +13,7 @@
 Summary:	Braille display driver for Linux/Unix
 Name:		brltty
 Version:	6.9.1
-Release:	4
+Release:	5
 License:	GPLv2+
 Group:		System/Servers
 Url:		https://mielke.cc/brltty/
@@ -140,7 +140,11 @@ autoconf
 for i in -I/usr/lib/jvm/java/include{,/linux}; do
       java_inc="$java_inc $i"
 done
+# Keep CC as a single token so OCaml -cc "$(CC)" works (no -std= in CC)
+export CC=%{__cc}
+export CFLAGS="%{optflags} -std=gnu99"
 %configure \
+	CC=%{__cc} \
 	CPPFLAGS="$java_inc" \
 	--bindir=/bin \
 	--libdir=/%{_lib} \
@@ -148,7 +152,9 @@ done
 	--disable-relocatable-install \
 	--disable-tcl-bindings \
 	--disable-stripping
-%make
+# OCaml bindings pass $(CC) to ocamlc -cc; ensure single token
+sed -i 's|^CC *=.*|CC = %{__cc}|' Makefile conf*/Makefile Bindings/OCaml/Makefile 2>/dev/null || true
+%make_build
 
 %install
 # just to avoid an installation error
