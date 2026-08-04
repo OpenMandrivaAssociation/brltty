@@ -13,7 +13,7 @@
 Summary:	Braille display driver for Linux/Unix
 Name:		brltty
 Version:	6.9.1
-Release:	8
+Release:	9
 License:	GPLv2+
 Group:		System/Servers
 Url:		https://mielke.cc/brltty/
@@ -165,7 +165,7 @@ install -m644 Documents/%{name}.conf -D %{buildroot}%{_sysconfdir}/%{name}.conf
 install -m644 Documents/%{name}.1 -D %{buildroot}%{_mandir}/man1/%{name}.1
 
 install -d %{buildroot}%{_bindir}
-for f in brltty-config brltty-ctb xbrlapi; do
+for f in brltty-config brltty-config.sh brltty-ctb xbrlapi; do
 	if [ -e "%{buildroot}/bin/$f" ]; then
 		mv "%{buildroot}/bin/$f" "%{buildroot}%{_bindir}/$f"
 	elif [ -e "%{buildroot}%{_bindir}/$f" ]; then
@@ -211,7 +211,6 @@ fi
 %config(noreplace) %{_sysconfdir}/%{name}.conf
 /bin/*
 %{_bindir}/*
-%exclude %{_bindir}/brltty-config
 /%{_lib}/%{name}
 %{_mandir}/man1/*
 
@@ -219,13 +218,10 @@ fi
 /%{_lib}/libbrlapi.so.%{major}*
 
 %files -n %{devname}
-%doc Documents/BrlAPIref/html
 /%{_lib}/*.so
 %{_includedir}/brlapi.h
 %{_includedir}/brlapi_*.h
 %{_includedir}/brltty
-%{_mandir}/man3/*
-# brltty-config may be named differently or absent
 
 %if %{with java}
 %files -n java-brlapi
