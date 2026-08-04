@@ -1,6 +1,6 @@
 %global _disable_ld_no_undefined 1
 
-%define major	0.7
+%define major	0.8
 %define libname	%mklibname brlapi %{major}
 %define devname	%mklibname brlapi -d
 
@@ -13,7 +13,7 @@
 Summary:	Braille display driver for Linux/Unix
 Name:		brltty
 Version:	6.9.1
-Release:	7
+Release:	8
 License:	GPLv2+
 Group:		System/Servers
 Url:		https://mielke.cc/brltty/
@@ -194,6 +194,7 @@ done
 # Optional install paths (layout varies by configure options / version)
 : > brltty-optional.files
 for f in \
+	%{_bindir}/brltty-config \
 	%{_sysconfdir}/X11/Xsession.d/60xbrlapi \
 	%{_datadir}/gdm/greeter/autostart/xbrlapi.desktop \
 	%{_datadir}/polkit-1/actions/org.a11y.brlapi.policy
@@ -218,13 +219,13 @@ fi
 /%{_lib}/libbrlapi.so.%{major}*
 
 %files -n %{devname}
-%{_bindir}/brltty-config
 %doc Documents/BrlAPIref/html
 /%{_lib}/*.so
 %{_includedir}/brlapi.h
 %{_includedir}/brlapi_*.h
 %{_includedir}/brltty
 %{_mandir}/man3/*
+# brltty-config may be named differently or absent
 
 %if %{with java}
 %files -n java-brlapi
