@@ -13,7 +13,7 @@
 Summary:	Braille display driver for Linux/Unix
 Name:		brltty
 Version:	6.9.1
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		System/Servers
 Url:		https://mielke.cc/brltty/
@@ -31,10 +31,7 @@ BuildRequires:	ocaml
 BuildRequires:	ocaml-compiler
 BuildRequires:	python-cython
 BuildRequires:	subversion
-BuildRequires:	festival-devel
 BuildRequires:	gpm-devel
-BuildRequires:	libbraille-devel
-BuildRequires:	speech_tools-devel
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(bluez)
 BuildRequires:	pkgconfig(ncursesw)
@@ -136,7 +133,7 @@ developing applications that use ocaml-brlapi.
 
 %prep
 %setup -q
-%autopatch -p1
+# %autopatch -p1  # patches currently dropped
 autoconf
 
 %build
