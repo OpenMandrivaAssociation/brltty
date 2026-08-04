@@ -13,7 +13,7 @@
 Summary:	Braille display driver for Linux/Unix
 Name:		brltty
 Version:	6.9.1
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		System/Servers
 Url:		https://mielke.cc/brltty/
@@ -27,6 +27,7 @@ BuildRequires:	slibtool
 BuildRequires:	make autoconf m4 libtool automake gettext
 BuildRequires:	bison
 BuildRequires:	ocaml
+BuildRequires:	ocaml-compiler
 BuildRequires:	python-cython
 BuildRequires:	subversion
 BuildRequires:	festival-devel
