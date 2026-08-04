@@ -13,7 +13,7 @@
 Summary:	Braille display driver for Linux/Unix
 Name:		brltty
 Version:	6.9.1
-Release:	5
+Release:	6
 License:	GPLv2+
 Group:		System/Servers
 Url:		https://mielke.cc/brltty/
@@ -166,11 +166,18 @@ install -m644 Documents/%{name}.1 -D %{buildroot}%{_mandir}/man1/%{name}.1
 
 install -d %{buildroot}%{_bindir}
 for f in brltty-config brltty-ctb xbrlapi; do
-	mv "%{buildroot}/bin/$f" "%{buildroot}%{_bindir}/$f"
+	if [ -e "%{buildroot}/bin/$f" ]; then
+		mv "%{buildroot}/bin/$f" "%{buildroot}%{_bindir}/$f"
+	elif [ -e "%{buildroot}%{_bindir}/$f" ]; then
+		: # already in bindir
+	else
+		echo "note: $f not installed (optional tool)"
+	fi
 done
 
 # Missing ocaml library
-cp Bindings/OCaml/*.cmx '%{buildroot}%{_libdir}/ocaml/brlapi/'
+mkdir -p '%{buildroot}%{_libdir}/ocaml/brlapi/'
+cp -a Bindings/OCaml/*.cmx '%{buildroot}%{_libdir}/ocaml/brlapi/' 2>/dev/null || :
 
 directory="doc"
 mkdir -p "${directory}"
