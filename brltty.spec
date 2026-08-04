@@ -13,7 +13,7 @@
 Summary:	Braille display driver for Linux/Unix
 Name:		brltty
 Version:	6.9.1
-Release:	9
+Release:	10
 License:	GPLv2+
 Group:		System/Servers
 Url:		https://mielke.cc/brltty/
@@ -196,6 +196,7 @@ done
 for f in \
 	%{_bindir}/brltty-config \
 	%{_sysconfdir}/X11/Xsession.d/60xbrlapi \
+	%{_sysconfdir}/X11/Xsession.d/90xbrlapi \
 	%{_datadir}/gdm/greeter/autostart/xbrlapi.desktop \
 	%{_datadir}/polkit-1/actions/org.a11y.brlapi.policy
 do
@@ -212,6 +213,8 @@ fi
 /bin/*
 %{_bindir}/*
 /%{_lib}/%{name}
+/%{_lib}/pkgconfig/brltty.pc
+%{_libexecdir}/%{name}
 %{_mandir}/man1/*
 
 %files -n %{libname}
