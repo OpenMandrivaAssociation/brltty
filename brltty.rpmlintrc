@@ -1,4 +1,3 @@
-addFilter("lib-package-without-%mklibname")
 addFilter("rpm-buildroot-usage")
 addFilter("invalid-license")
 addFilter("non-coherent-filename")
